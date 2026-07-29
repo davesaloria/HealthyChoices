@@ -2,6 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import { deleteProduct } from './actions'
+import { isImageUrl } from '@/lib/is-image-url'
 
 export default async function AdminProductsPage() {
   const supabase = await createClient()
@@ -42,7 +43,7 @@ export default async function AdminProductsPage() {
               return (
                 <tr key={product.id} className="border-t border-charcoal-100">
                   <td className="px-4 py-3 flex items-center gap-3">
-                    {product.image_url?.startsWith('/') ? (
+                    {product.image_url && isImageUrl(product.image_url) ? (
                       <span className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
                         <Image src={product.image_url} alt="" fill className="object-cover" />
                       </span>

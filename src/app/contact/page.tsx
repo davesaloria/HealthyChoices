@@ -3,8 +3,42 @@
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' })
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [error, setError] = useState<string | null>(null)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('sending')
+    setError(null)
+
+    const supabase = createClient()
+    const { error } = await supabase.from('contact_messages').insert({
+      name: formData.name,
+      email: formData.email,
+      subject: formData.subject || null,
+      message: formData.message,
+    })
+
+    if (error) {
+      setError(error.message)
+      setStatus('error')
+      return
+    }
+
+    setStatus('sent')
+    setFormData({ name: '', email: '', subject: '', message: '' })
+  }
+
   return (
     <main>
       {/* Header */}
@@ -34,31 +68,59 @@ export default function ContactPage() {
                   <h2 className="text-2xl font-bold text-charcoal-900 mb-6">
                     Send us a message
                   </h2>
-                  <form className="space-y-4">
-                    <input
-                      type="text"
-                      placeholder="Your name"
-                      className="w-full px-4 py-3 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Your email"
-                      className="w-full px-4 py-3 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Subject"
-                      className="w-full px-4 py-3 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-                    />
-                    <textarea
-                      placeholder="Your message"
-                      rows={6}
-                      className="w-full px-4 py-3 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 resize-none"
-                    />
-                    <Button size="lg" className="w-full">
-                      Send Message
-                    </Button>
-                  </form>
+
+                  {status === 'sent' ? (
+                    <div className="px-4 py-6 rounded-lg bg-primary-50 text-primary-700 text-center">
+                      <p className="font-semibold mb-1">Message sent!</p>
+                      <p className="text-sm">We&apos;ll get back to you soon.</p>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                      {status === 'error' && (
+                        <div className="px-4 py-3 rounded-lg bg-coral-50 text-coral-700 text-sm">
+                          {error ?? 'Something went wrong. Please try again.'}
+                        </div>
+                      )}
+                      <input
+                        type="text"
+                        name="name"
+                        placeholder="Your name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                      />
+                      <input
+                        type="email"
+                        name="email"
+                        placeholder="Your email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                      />
+                      <input
+                        type="text"
+                        name="subject"
+                        placeholder="Subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                      />
+                      <textarea
+                        name="message"
+                        placeholder="Your message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        rows={6}
+                        className="w-full px-4 py-3 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 resize-none"
+                      />
+                      <Button size="lg" className="w-full" disabled={status === 'sending'}>
+                        {status === 'sending' ? 'Sending...' : 'Send Message'}
+                      </Button>
+                    </form>
+                  )}
                 </CardContent>
               </Card>
             </motion.div>

@@ -1,6 +1,8 @@
 'use client'
 
+import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
+import { ImageUploadField } from '@/components/admin/ImageUploadField'
 import type { RecipeIngredient } from '@/lib/recipes-fallback'
 
 interface RecipeFormValues {
@@ -20,6 +22,8 @@ export function RecipeForm({
   recipe?: RecipeFormValues
   action: (formData: FormData) => void | Promise<void>
 }) {
+  const [imageUrl, setImageUrl] = useState(recipe?.image_url ?? '')
+
   return (
     <form action={action} className="space-y-5 max-w-xl bg-white rounded-2xl border border-charcoal-100 p-6">
       <div>
@@ -32,16 +36,7 @@ export function RecipeForm({
         />
       </div>
 
-      <div>
-        <label className="block text-sm font-semibold text-charcoal-900 mb-1.5">Image path</label>
-        <input
-          name="image_url"
-          defaultValue={recipe?.image_url}
-          required
-          placeholder="/images/recipes/your-photo.jpg"
-          className="w-full px-4 py-2.5 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-        />
-      </div>
+      <ImageUploadField name="image_url" value={imageUrl} onChange={setImageUrl} folder="recipes" />
 
       <div className="grid grid-cols-2 gap-4">
         <div>

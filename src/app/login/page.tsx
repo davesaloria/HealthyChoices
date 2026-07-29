@@ -71,6 +71,11 @@ function LoginForm() {
             required
             className="w-full px-4 py-3 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
           />
+          <div className="text-right -mt-2">
+            <Link href="/forgot-password" className="text-sm text-primary-500 hover:text-primary-600">
+              Forgot password?
+            </Link>
+          </div>
           <Button size="lg" className="w-full" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign In'}
           </Button>

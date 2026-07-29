@@ -5,6 +5,7 @@ import { SignOutButton } from './SignOutButton'
 const navItems = [
   { href: '/admin', label: 'Dashboard' },
   { href: '/admin/orders', label: 'Orders' },
+  { href: '/admin/messages', label: 'Messages' },
   { href: '/admin/products', label: 'Products' },
   { href: '/admin/recipes', label: 'Recipes' },
   { href: '/admin/promotions', label: 'Promotions' },

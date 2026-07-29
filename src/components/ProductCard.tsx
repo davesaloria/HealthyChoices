@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/Card'
 import type { Product } from '@/lib/products-fallback'
 import useCartStore from '@/store/cart'
+import { isImageUrl } from '@/lib/is-image-url'
 
 const LOW_STOCK_THRESHOLD = 10
 
@@ -15,7 +16,7 @@ export function ProductCard({ product }: { product: Product }) {
   const [added, setAdded] = useState(false)
   const outOfStock = product.quantity <= 0
   const lowStock = !outOfStock && product.quantity <= LOW_STOCK_THRESHOLD
-  const isImage = product.image_url.startsWith('/')
+  const isImage = isImageUrl(product.image_url)
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault()

@@ -1,7 +1,9 @@
 'use client'
 
+import { useState } from 'react'
 import { categories } from '@/lib/products-fallback'
 import { Button } from '@/components/ui/Button'
+import { ImageUploadField } from '@/components/admin/ImageUploadField'
 
 interface ProductFormValues {
   name?: string
@@ -22,6 +24,7 @@ export function ProductForm({
   action: (formData: FormData) => void | Promise<void>
 }) {
   const selectableCategories = categories.filter((c) => c.value !== 'all')
+  const [imageUrl, setImageUrl] = useState(product?.image_url ?? '')
 
   return (
     <form action={action} className="space-y-5 max-w-xl bg-white rounded-2xl border border-charcoal-100 p-6">
@@ -104,18 +107,7 @@ export function ProductForm({
         </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-semibold text-charcoal-900 mb-1.5">
-          Image path or emoji
-        </label>
-        <input
-          name="image_url"
-          defaultValue={product?.image_url}
-          required
-          placeholder="/images/product-name.jpg or 🥬"
-          className="w-full px-4 py-2.5 border border-charcoal-200 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
-        />
-      </div>
+      <ImageUploadField name="image_url" value={imageUrl} onChange={setImageUrl} folder="products" />
 
       <div>
         <label className="block text-sm font-semibold text-charcoal-900 mb-1.5">

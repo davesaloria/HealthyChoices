@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import useCartStore from '@/store/cart'
+import { isImageUrl } from '@/lib/is-image-url'
 
 export default function CartPage() {
   const [hydrated, setHydrated] = useState(false)
@@ -72,7 +73,7 @@ export default function CartPage() {
                     <CardContent className="flex items-center gap-6 pt-6">
                       {/* Image */}
                       <div className="relative w-24 h-24 bg-gradient-to-br from-sage-100 to-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
-                        {item.image_url.startsWith('/') ? (
+                        {isImageUrl(item.image_url) ? (
                           <Image src={item.image_url} alt={item.name} fill className="object-cover" />
                         ) : (
                           <span className="text-4xl">{item.image_url}</span>

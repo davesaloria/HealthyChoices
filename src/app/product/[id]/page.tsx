@@ -8,6 +8,7 @@ import { getProducts } from '@/lib/get-products'
 import { categories, type Product } from '@/lib/products-fallback'
 import { ProductCard } from '@/components/ProductCard'
 import useCartStore from '@/store/cart'
+import { isImageUrl } from '@/lib/is-image-url'
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const [quantity, setQuantity] = useState(1)
@@ -70,7 +71,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             <div
               className={`relative aspect-square rounded-2xl overflow-hidden ${outOfStock ? 'grayscale' : ''}`}
             >
-              {product.image_url.startsWith('/') ? (
+              {isImageUrl(product.image_url) ? (
                 <Image
                   src={product.image_url}
                   alt={product.name}
