@@ -5,7 +5,10 @@ insert into storage.buckets (id, name, public)
 values ('media', 'media', true)
 on conflict (id) do nothing;
 
-alter table storage.objects enable row level security;
+-- storage.objects already has RLS enabled by default in every Supabase
+-- project, and the SQL Editor's role doesn't own that table (only
+-- Supabase's internal storage role does), so re-toggling it here would
+-- fail with "must be owner of table objects." Only policies are added.
 
 create policy "Public can view media" on storage.objects for select
   using (bucket_id = 'media');
