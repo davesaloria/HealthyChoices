@@ -4,18 +4,22 @@ import { createClient } from '@/lib/supabase/server'
 export default async function AdminDashboardPage() {
   const supabase = await createClient()
 
-  const [{ data: products }, { data: recipes }, { data: promotions }] = await Promise.all([
-    supabase.from('products').select('id, quantity'),
-    supabase.from('recipes').select('id'),
-    supabase.from('promotions').select('id, is_active').eq('is_active', true),
-  ])
+  const [{ data: products }, { data: recipes }, { data: promotions }, { data: orders }] =
+    await Promise.all([
+      supabase.from('products').select('id, quantity'),
+      supabase.from('recipes').select('id'),
+      supabase.from('promotions').select('id, is_active').eq('is_active', true),
+      supabase.from('orders').select('id, status'),
+    ])
 
   const totalProducts = products?.length ?? 0
   const outOfStock = products?.filter((p) => p.quantity <= 0).length ?? 0
   const totalRecipes = recipes?.length ?? 0
   const activePromo = (promotions?.length ?? 0) > 0
+  const pendingOrders = orders?.filter((o) => o.status === 'pending').length ?? 0
 
   const cards = [
+    { label: 'Pending Orders', value: pendingOrders, href: '/admin/orders' },
     { label: 'Products', value: totalProducts, href: '/admin/products' },
     { label: 'Out of Stock', value: outOfStock, href: '/admin/products' },
     { label: 'Recipes', value: totalRecipes, href: '/admin/recipes' },
@@ -29,7 +33,7 @@ export default async function AdminDashboardPage() {
         Manage your products, recipes, promotions, and About page content.
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
         {cards.map((card) => (
           <Link
             key={card.label}

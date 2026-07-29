@@ -2,16 +2,34 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardTitle, CardDescription } from '@/components/ui/Card'
 import type { Product } from '@/lib/products-fallback'
+import useCartStore from '@/store/cart'
 
 const LOW_STOCK_THRESHOLD = 10
 
 export function ProductCard({ product }: { product: Product }) {
+  const addItem = useCartStore((state) => state.addItem)
+  const [added, setAdded] = useState(false)
   const outOfStock = product.quantity <= 0
   const lowStock = !outOfStock && product.quantity <= LOW_STOCK_THRESHOLD
   const isImage = product.image_url.startsWith('/')
+
+  const handleAdd = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    addItem({
+      slug: product.slug,
+      name: product.name,
+      price: product.price,
+      image_url: product.image_url,
+      size: product.size,
+    })
+    setAdded(true)
+    setTimeout(() => setAdded(false), 1500)
+  }
 
   const card = (
     <Card
@@ -55,8 +73,8 @@ export function ProductCard({ product }: { product: Product }) {
               {outOfStock ? 'Out of stock' : `${product.quantity} in stock`}
             </p>
           </div>
-          <Button size="sm" disabled={outOfStock}>
-            {outOfStock ? 'Sold Out' : 'Add'}
+          <Button size="sm" disabled={outOfStock} onClick={handleAdd}>
+            {outOfStock ? 'Sold Out' : added ? 'Added ✓' : 'Add'}
           </Button>
         </div>
       </CardContent>

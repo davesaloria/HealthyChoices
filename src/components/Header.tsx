@@ -2,11 +2,31 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/Button'
+import useCartStore from '@/store/cart'
+import { createClient } from '@/lib/supabase/client'
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const count = useCartStore((state) => state.getCount())
+
+  // Cart (localStorage) and auth state are only known client-side, so the
+  // server-rendered shell must stay static until after hydration to avoid
+  // a text-content mismatch.
+  useEffect(() => {
+    setMounted(true)
+    const supabase = createClient()
+    supabase.auth.getUser().then(({ data }) => setIsLoggedIn(!!data.user))
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsLoggedIn(!!session?.user)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
 
   return (
     <header className="sticky top-0 z-40 border-b border-charcoal-100 bg-white/80 backdrop-blur-sm">
@@ -56,14 +76,19 @@ export function Header() {
 
         {/* Right Actions */}
         <div className="flex items-center gap-4">
-          <Link href="/cart">
+          <Link href="/cart" className="relative">
             <Button variant="ghost" size="sm">
               Cart
             </Button>
+            {mounted && count > 0 && (
+              <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-coral-500 text-white text-xs font-bold flex items-center justify-center">
+                {count}
+              </span>
+            )}
           </Link>
-          <Link href="/account" className="hidden sm:block">
+          <Link href={mounted && isLoggedIn ? '/account' : '/login'} className="hidden sm:block">
             <Button variant="outline" size="sm">
-              Account
+              {mounted && isLoggedIn ? 'Account' : 'Sign In'}
             </Button>
           </Link>
           <button
@@ -111,10 +136,10 @@ export function Header() {
             Contact
           </Link>
           <Link
-            href="/account"
+            href={mounted && isLoggedIn ? '/account' : '/login'}
             className="block px-4 py-2 text-charcoal-700 hover:bg-sage-50 rounded-lg sm:hidden"
           >
-            Account
+            {mounted && isLoggedIn ? 'Account' : 'Sign In'}
           </Link>
         </div>
       )}

@@ -7,12 +7,15 @@ import Image from 'next/image'
 import { getProducts } from '@/lib/get-products'
 import { categories, type Product } from '@/lib/products-fallback'
 import { ProductCard } from '@/components/ProductCard'
+import useCartStore from '@/store/cart'
 
 export default function ProductPage({ params }: { params: { id: string } }) {
   const [quantity, setQuantity] = useState(1)
   const [product, setProduct] = useState<Product | null>(null)
   const [recommended, setRecommended] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const [added, setAdded] = useState(false)
+  const addItem = useCartStore((state) => state.addItem)
 
   useEffect(() => {
     getProducts().then((all) => {
@@ -143,8 +146,27 @@ export default function ProductPage({ params }: { params: { id: string } }) {
               </div>
             )}
 
-            <Button size="lg" className="w-full" disabled={outOfStock}>
-              {outOfStock ? 'Sold Out' : 'Add to Cart'}
+            <Button
+              size="lg"
+              className="w-full"
+              disabled={outOfStock}
+              onClick={() => {
+                if (!product) return
+                addItem(
+                  {
+                    slug: product.slug,
+                    name: product.name,
+                    price: product.price,
+                    image_url: product.image_url,
+                    size: product.size,
+                  },
+                  quantity
+                )
+                setAdded(true)
+                setTimeout(() => setAdded(false), 1500)
+              }}
+            >
+              {outOfStock ? 'Sold Out' : added ? 'Added to Cart ✓' : 'Add to Cart'}
             </Button>
           </motion.div>
         </div>

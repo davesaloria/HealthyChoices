@@ -2,46 +2,28 @@
 
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
+import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import useCartStore from '@/store/cart'
 
 export default function CartPage() {
-  const [items, setItems] = useState([
-    {
-      id: 1,
-      name: 'Classic Greek Yogurt',
-      price: 250,
-      quantity: 2,
-      size: '500ml',
-      image: '🥣',
-    },
-    {
-      id: 2,
-      name: 'Mixed Berry Slushie',
-      price: 320,
-      quantity: 1,
-      size: '1L',
-      image: '🫐',
-    },
-  ])
+  const [hydrated, setHydrated] = useState(false)
+  const items = useCartStore((state) => state.items)
+  const updateQuantity = useCartStore((state) => state.updateQuantity)
+  const removeItem = useCartStore((state) => state.removeItem)
+
+  // Zustand's persisted state only exists client-side; wait for hydration
+  // so the empty-cart message doesn't flash before localStorage loads.
+  useEffect(() => setHydrated(true), [])
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const tax = subtotal * 0.12
   const total = subtotal + tax
 
-  const handleRemove = (id: number) => {
-    setItems(items.filter((item) => item.id !== id))
-  }
-
-  const handleQuantityChange = (id: number, newQuantity: number) => {
-    if (newQuantity > 0) {
-      setItems(
-        items.map((item) =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
-      )
-    }
+  if (!hydrated) {
+    return <main className="py-24 text-center text-charcoal-500">Loading cart...</main>
   }
 
   if (items.length === 0) {
@@ -81,7 +63,7 @@ export default function CartPage() {
             <div className="space-y-4">
               {items.map((item, idx) => (
                 <motion.div
-                  key={item.id}
+                  key={item.slug}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
@@ -89,22 +71,24 @@ export default function CartPage() {
                   <Card>
                     <CardContent className="flex items-center gap-6 pt-6">
                       {/* Image */}
-                      <div className="w-24 h-24 bg-gradient-to-br from-sage-100 to-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <span className="text-4xl">{item.image}</span>
+                      <div className="relative w-24 h-24 bg-gradient-to-br from-sage-100 to-primary-100 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
+                        {item.image_url.startsWith('/') ? (
+                          <Image src={item.image_url} alt={item.name} fill className="object-cover" />
+                        ) : (
+                          <span className="text-4xl">{item.image_url}</span>
+                        )}
                       </div>
 
                       {/* Details */}
                       <div className="flex-grow">
                         <h3 className="font-bold text-charcoal-900">{item.name}</h3>
-                        <p className="text-sm text-charcoal-600">{item.size}</p>
+                        {item.size && <p className="text-sm text-charcoal-600">{item.size}</p>}
                       </div>
 
                       {/* Quantity */}
                       <div className="flex items-center gap-2 border border-charcoal-200 rounded-lg p-1">
                         <button
-                          onClick={() =>
-                            handleQuantityChange(item.id, item.quantity - 1)
-                          }
+                          onClick={() => updateQuantity(item.slug, item.quantity - 1)}
                           className="w-8 h-8 hover:bg-charcoal-50 flex items-center justify-center"
                         >
                           −
@@ -113,9 +97,7 @@ export default function CartPage() {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() =>
-                            handleQuantityChange(item.id, item.quantity + 1)
-                          }
+                          onClick={() => updateQuantity(item.slug, item.quantity + 1)}
                           className="w-8 h-8 hover:bg-charcoal-50 flex items-center justify-center"
                         >
                           +
@@ -134,7 +116,7 @@ export default function CartPage() {
 
                       {/* Remove */}
                       <button
-                        onClick={() => handleRemove(item.id)}
+                        onClick={() => removeItem(item.slug)}
                         className="text-coral-500 hover:text-coral-600 font-semibold"
                       >
                         ✕
