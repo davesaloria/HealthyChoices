@@ -3,7 +3,15 @@
 import { useEffect, useRef } from 'react'
 import { useInView, useMotionValue, useSpring } from 'framer-motion'
 
-export function Counter({ value, suffix = '' }: { value: number; suffix?: string }) {
+export function Counter({
+  value,
+  suffix = '',
+  decimals = 0,
+}: {
+  value: number
+  suffix?: string
+  decimals?: number
+}) {
   const ref = useRef<HTMLSpanElement>(null)
   const motionValue = useMotionValue(0)
   const springValue = useSpring(motionValue, { stiffness: 50, damping: 20 })
@@ -18,10 +26,19 @@ export function Counter({ value, suffix = '' }: { value: number; suffix?: string
   useEffect(() => {
     return springValue.on('change', (latest) => {
       if (ref.current) {
-        ref.current.textContent = Intl.NumberFormat('en-US').format(Math.floor(latest)) + suffix
+        const formatted = Intl.NumberFormat('en-US', {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals,
+        }).format(decimals > 0 ? latest : Math.floor(latest))
+        ref.current.textContent = formatted + suffix
       }
     })
-  }, [springValue, suffix])
+  }, [springValue, suffix, decimals])
 
-  return <span ref={ref}>0{suffix}</span>
+  return (
+    <span ref={ref}>
+      {decimals > 0 ? (0).toFixed(decimals) : 0}
+      {suffix}
+    </span>
+  )
 }

@@ -75,8 +75,9 @@ export default function ContactPage() {
                   <div className="text-4xl mb-4">📍</div>
                   <h3 className="font-bold text-charcoal-900 mb-2">Address</h3>
                   <p className="text-charcoal-600">
-                    Naga, Nagaland<br />
-                    India
+                    Block 8 Lot 31 Phase 2A<br />
+                    Casa Mira South, Langtad<br />
+                    City of Naga, 6037 Cebu
                   </p>
                 </CardContent>
               </Card>
@@ -86,10 +87,10 @@ export default function ContactPage() {
                   <div className="text-4xl mb-4">📞</div>
                   <h3 className="font-bold text-charcoal-900 mb-2">Phone</h3>
                   <a
-                    href="tel:+919876543210"
+                    href="tel:+639687374820"
                     className="text-primary-500 hover:text-primary-600"
                   >
-                    +91 9876 543 210
+                    0968 737 4820
                   </a>
                 </CardContent>
               </Card>
@@ -112,9 +113,8 @@ export default function ContactPage() {
                   <div className="text-4xl mb-4">🕒</div>
                   <h3 className="font-bold text-charcoal-900 mb-2">Hours</h3>
                   <p className="text-charcoal-600">
-                    Mon - Fri: 9:00 AM - 6:00 PM<br />
-                    Sat: 10:00 AM - 4:00 PM<br />
-                    Sun: Closed
+                    Open daily<br />
+                    7:00 AM – 11:00 AM
                   </p>
                 </CardContent>
               </Card>

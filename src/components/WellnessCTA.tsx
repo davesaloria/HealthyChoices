@@ -16,8 +16,8 @@ export function WellnessCTA() {
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       <Image
-        src="/images/hero-yogurt-bowl.jpg"
-        alt="Healthy Choices Greek yogurt bowl with fresh berries"
+        src="/images/wellness-cta-bowl.png"
+        alt="Greek yogurt bowl with strawberries, blueberries, and granola"
         fill
         sizes="100vw"
         className="object-cover"

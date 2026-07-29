@@ -1,43 +1,24 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { HeroSection } from '@/components/HeroSection'
 import { OurJourney } from '@/components/OurJourney'
 import { FlavorShowcase } from '@/components/FlavorShowcase'
 import { BenefitsShowcase } from '@/components/BenefitsShowcase'
 import { WellnessCTA } from '@/components/WellnessCTA'
+import { ProductCard } from '@/components/ProductCard'
 import { Button } from '@/components/ui/Button'
-import { Card, CardContent, CardTitle } from '@/components/ui/Card'
 import Link from 'next/link'
-import Image from 'next/image'
 import { motion } from 'framer-motion'
+import { getProducts } from '@/lib/get-products'
+import type { Product } from '@/lib/products-fallback'
 
 export default function Home() {
-  const featured = [
-    {
-      id: 1,
-      name: 'Classic Greek Yogurt',
-      price: 250,
-      image: '/images/product-classic-greek-yogurt.jpg',
-    },
-    {
-      id: 2,
-      name: 'Mixed Berry Slushie',
-      price: 320,
-      image: '/images/product-mixed-berry.jpg',
-    },
-    {
-      id: 3,
-      name: 'Mango Delight',
-      price: 280,
-      image: '/images/product-mango-yogurt.jpg',
-    },
-    {
-      id: 4,
-      name: 'Honey Almond Bowl',
-      price: 350,
-      image: '/images/product-honey-almond-bowl.jpg',
-    },
-  ]
+  const [featured, setFeatured] = useState<Product[]>([])
+
+  useEffect(() => {
+    getProducts().then((data) => setFeatured(data.slice(0, 4)))
+  }, [])
 
   return (
     <>
@@ -85,26 +66,7 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
               >
-                <Card className="overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer">
-                  <div className="relative aspect-square overflow-hidden">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      sizes="(max-width: 768px) 50vw, 25vw"
-                      className="object-cover group-hover:scale-110 transition-transform"
-                    />
-                  </div>
-                  <CardContent className="pt-4">
-                    <CardTitle className="text-lg">{product.name}</CardTitle>
-                    <div className="flex items-center justify-between mt-4">
-                      <span className="text-2xl font-bold text-primary-500">
-                        ₱{product.price}
-                      </span>
-                      <Button size="sm">Add</Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                <ProductCard product={product} />
               </motion.div>
             ))}
           </div>

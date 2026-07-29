@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
-import { Header } from '@/components/Header'
-import { Footer } from '@/components/Footer'
+import { SiteChrome } from '@/components/SiteChrome'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -37,9 +36,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col bg-white">
-        <Header />
-        <main className="flex-grow">{children}</main>
-        <Footer />
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   )
