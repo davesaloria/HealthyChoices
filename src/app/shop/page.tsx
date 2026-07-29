@@ -143,7 +143,7 @@ export default function ShopPage() {
                       </CardDescription>
                       <div className="flex items-center justify-between mt-4">
                         <div>
-                          <p className="text-2xl font-bold text-primary-500">₹{product.price}</p>
+                          <p className="text-2xl font-bold text-primary-500">₱{product.price}</p>
                           <p className="text-sm text-charcoal-600">{product.protein}g protein</p>
                         </div>
                         <Button size="sm">Add</Button>

@@ -24,7 +24,7 @@ export default function CheckoutPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const total = 3025
+  const total = 918
 
   return (
     <main className="py-12">
@@ -243,17 +243,17 @@ export default function CheckoutPage() {
                       Payment Method
                     </h2>
                     <div className="space-y-3">
-                      {['card', 'upi', 'netbanking'].map((method) => (
+                      {['gcash', 'card', 'cod'].map((method) => (
                         <label key={method} className="flex items-center p-4 border border-primary-200 rounded-lg cursor-pointer hover:bg-primary-50">
                           <input
                             type="radio"
-                            defaultChecked={method === 'upi'}
+                            defaultChecked={method === 'gcash'}
                             className="w-4 h-4 text-primary-500"
                           />
                           <span className="ml-3 font-medium text-charcoal-900 capitalize">
                             {method === 'card' && 'Credit/Debit Card'}
-                            {method === 'upi' && 'UPI'}
-                            {method === 'netbanking' && 'Net Banking'}
+                            {method === 'gcash' && 'GCash'}
+                            {method === 'cod' && 'Cash on Delivery / Pickup'}
                           </span>
                         </label>
                       ))}
@@ -305,22 +305,22 @@ export default function CheckoutPage() {
                 <div className="space-y-3 mb-6 pb-6 border-b border-charcoal-100">
                   <div className="flex justify-between">
                     <span className="text-charcoal-600">Classic Greek Yogurt (2x)</span>
-                    <span className="font-semibold">₹500</span>
+                    <span className="font-semibold">₱500</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-charcoal-600">Mixed Berry Slushie (1x)</span>
-                    <span className="font-semibold">₹320</span>
+                    <span className="font-semibold">₱320</span>
                   </div>
                 </div>
 
                 <div className="space-y-3 mb-6 pb-6 border-b border-charcoal-100">
                   <div className="flex justify-between text-charcoal-600">
                     <span>Subtotal</span>
-                    <span>₹820</span>
+                    <span>₱820</span>
                   </div>
                   <div className="flex justify-between text-charcoal-600">
-                    <span>Tax (18%)</span>
-                    <span>₹147</span>
+                    <span>VAT (12%)</span>
+                    <span>₱98</span>
                   </div>
                   <div className="flex justify-between text-charcoal-600">
                     <span>Delivery</span>
@@ -330,7 +330,7 @@ export default function CheckoutPage() {
 
                 <div className="flex justify-between">
                   <span className="font-bold text-charcoal-900">Total</span>
-                  <span className="text-2xl font-bold text-primary-500">₹{total}</span>
+                  <span className="text-2xl font-bold text-primary-500">₱{total}</span>
                 </div>
               </CardContent>
             </Card>

@@ -1,6 +1,8 @@
 'use client'
 
 import { HeroSection } from '@/components/HeroSection'
+import { OurJourney } from '@/components/OurJourney'
+import { FlavorShowcase } from '@/components/FlavorShowcase'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/Card'
 import Link from 'next/link'
@@ -63,6 +65,9 @@ export default function Home() {
       {/* Hero */}
       <HeroSection />
 
+      {/* Our Journey */}
+      <OurJourney />
+
       {/* Benefits Section */}
       <section className="py-20 bg-gradient-to-b from-white to-sage-50">
         <div className="container mx-auto px-4">
@@ -103,6 +108,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Flavor Showcase */}
+      <FlavorShowcase />
 
       {/* Featured Products */}
       <section className="py-20 bg-white">
@@ -150,7 +158,7 @@ export default function Home() {
                     <CardTitle className="text-lg">{product.name}</CardTitle>
                     <div className="flex items-center justify-between mt-4">
                       <span className="text-2xl font-bold text-primary-500">
-                        ₹{product.price}
+                        ₱{product.price}
                       </span>
                       <Button size="sm">Add</Button>
                     </div>

@@ -103,8 +103,8 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
             {/* Price */}
             <div className="mb-8">
-              <p className="text-4xl font-bold text-primary-500 mb-2">₹{product.price}</p>
-              <p className="text-charcoal-600">Including GST</p>
+              <p className="text-4xl font-bold text-primary-500 mb-2">₱{product.price}</p>
+              <p className="text-charcoal-600">Inclusive of VAT</p>
             </div>
 
             {/* Description */}
@@ -262,7 +262,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
                 <CardContent className="pt-4">
                   <h3 className="font-bold text-charcoal-900 mb-2">{item.name}</h3>
                   <div className="flex items-center justify-between">
-                    <span className="text-lg font-bold text-primary-500">₹{item.price}</span>
+                    <span className="text-lg font-bold text-primary-500">₱{item.price}</span>
                     <Button size="sm">Add</Button>
                   </div>
                 </CardContent>

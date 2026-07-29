@@ -73,33 +73,39 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Visit Us */}
           <div>
-            <h4 className="font-semibold text-charcoal-900 mb-4">Legal</h4>
-            <ul className="space-y-2 text-sm text-charcoal-600">
-              <li>
-                <a href="/privacy" className="hover:text-primary-500 transition">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a href="/terms" className="hover:text-primary-500 transition">
-                  Terms of Service
-                </a>
-              </li>
-              <li>
-                <a href="/shipping" className="hover:text-primary-500 transition">
-                  Shipping Info
-                </a>
-              </li>
-            </ul>
+            <h4 className="font-semibold text-charcoal-900 mb-4">Visit Us</h4>
+            <address className="text-sm text-charcoal-600 not-italic leading-relaxed mb-3">
+              Casa Mira South, Langtad
+              <br />
+              City of Naga, Cebu
+            </address>
+            <p className="text-sm text-charcoal-600">
+              Open daily
+              <br />
+              7:00 AM – 11:00 AM
+            </p>
           </div>
+        </div>
+
+        {/* Legal links */}
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-charcoal-600 border-t border-charcoal-200 pt-8 mb-4">
+          <a href="/privacy" className="hover:text-primary-500 transition">
+            Privacy Policy
+          </a>
+          <a href="/terms" className="hover:text-primary-500 transition">
+            Terms of Service
+          </a>
+          <a href="/shipping" className="hover:text-primary-500 transition">
+            Shipping Info
+          </a>
         </div>
 
         {/* Bottom */}
         <div className="border-t border-charcoal-200 pt-8">
           <p className="text-sm text-charcoal-600 text-center">
-            © 2024 Healthy Choices. All rights reserved.
+            © {new Date().getFullYear()} Healthy Choices. All rights reserved.
           </p>
         </div>
       </div>

@@ -91,7 +91,7 @@ export default function AccountPage() {
                         <p className="text-sm text-charcoal-600">{order.date}</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-charcoal-900">₹{order.total}</p>
+                        <p className="font-bold text-charcoal-900">₱{order.total}</p>
                         <span
                           className={`text-sm font-medium ${
                             order.status === 'Delivered'

@@ -27,7 +27,7 @@ export default function CartPage() {
   ])
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const tax = subtotal * 0.18
+  const tax = subtotal * 0.12
   const total = subtotal + tax
 
   const handleRemove = (id: number) => {
@@ -125,10 +125,10 @@ export default function CartPage() {
                       {/* Price */}
                       <div className="text-right">
                         <p className="font-bold text-charcoal-900">
-                          ₹{item.price * item.quantity}
+                          ₱{item.price * item.quantity}
                         </p>
                         <p className="text-xs text-charcoal-600">
-                          ₹{item.price} each
+                          ₱{item.price} each
                         </p>
                       </div>
 
@@ -159,11 +159,11 @@ export default function CartPage() {
                 <div className="space-y-4 mb-6 pb-6 border-b border-charcoal-100">
                   <div className="flex justify-between text-charcoal-600">
                     <span>Subtotal</span>
-                    <span>₹{subtotal}</span>
+                    <span>₱{subtotal}</span>
                   </div>
                   <div className="flex justify-between text-charcoal-600">
-                    <span>Tax (18%)</span>
-                    <span>₹{Math.round(tax)}</span>
+                    <span>VAT (12%)</span>
+                    <span>₱{Math.round(tax)}</span>
                   </div>
                   <div className="flex justify-between text-charcoal-600">
                     <span>Delivery (Free)</span>
@@ -174,7 +174,7 @@ export default function CartPage() {
                 <div className="flex justify-between mb-6 pb-6 border-b border-charcoal-100">
                   <span className="font-bold text-charcoal-900">Total</span>
                   <span className="text-2xl font-bold text-primary-500">
-                    ₹{Math.round(total)}
+                    ₱{Math.round(total)}
                   </span>
                 </div>
 

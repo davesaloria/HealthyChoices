@@ -4,6 +4,7 @@ import { Footer } from '@/components/Footer'
 import './globals.css'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://healthychoices.vercel.app'),
   title: 'Healthy Choices - Premium Greek Yogurt',
   description:
     'Premium Greek yogurt and healthy snacks. Fresh, homemade quality for a healthier lifestyle.',
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
     description: 'Premium Greek yogurt and healthy snacks for a better life.',
     type: 'website',
     url: 'https://healthychoices.vercel.app',
+    images: ['/images/hero-yogurt-bowl.jpg'],
   },
 }
 
