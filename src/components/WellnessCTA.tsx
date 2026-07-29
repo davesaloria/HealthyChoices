@@ -69,12 +69,12 @@ export function WellnessCTA() {
           {highlights.map((item, idx) => (
             <div key={item.label} className="flex items-center gap-3 flex-shrink-0">
               {idx > 0 && (
-                <span className="hidden md:block w-px h-8 bg-white/20 -ml-3 mr-3" />
+                <span className="hidden md:block w-px h-10 bg-white/20 -ml-3 mr-3" />
               )}
-              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
-                <Image src={item.icon} alt="" width={24} height={24} />
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden shadow-medium">
+                <Image src={item.icon} alt="" fill sizes="64px" className="object-cover scale-125" />
               </div>
-              <span className="text-xs sm:text-sm text-white font-medium whitespace-pre-line leading-tight">
+              <span className="text-sm sm:text-base text-white font-medium whitespace-pre-line leading-tight">
                 {item.label}
               </span>
             </div>
