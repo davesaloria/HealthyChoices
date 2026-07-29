@@ -16,6 +16,9 @@ node_modules
 /build
 /dist
 
+# TypeScript
+*.tsbuildinfo
+
 # Misc
 .DS_Store
 *.pem
