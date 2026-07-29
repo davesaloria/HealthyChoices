@@ -10,9 +10,6 @@ const stats = [
   { value: 843, suffix: '+', label: "CULTUR'D tubs sold" },
   { value: 235, suffix: '+', label: 'Overnight oat jars sold' },
   { value: 281, suffix: '+', label: 'Happy customers' },
-  { value: 24, suffix: '', label: 'Pantry products stocked' },
-  { value: 4, suffix: '', label: 'Real fruit flavors' },
-  { value: 5.0, suffix: '★', label: 'Google rating', decimals: 1 },
 ]
 
 export function OurJourney() {
@@ -32,7 +29,7 @@ export function OurJourney() {
             viewport={{ once: true }}
           >
             <span className="inline-block px-4 py-1.5 rounded-full bg-primary-500/20 text-primary-300 text-sm font-semibold mb-6">
-              Our Journey So Far
+              Our First Month
             </span>
             <h2 className="text-4xl md:text-5xl font-display font-bold text-white mb-6 leading-tight">
               This isn&apos;t just yogurt.
@@ -41,35 +38,27 @@ export function OurJourney() {
               feeling better.
             </h2>
             <p className="text-lg text-charcoal-300 mb-10 leading-relaxed max-w-lg">
-              From one homemade batch to a full pantry of wellness essentials —
-              every tub is handmade, every jar is packed with love, and every
-              delivery (even the late-night ones) is us showing up for your
-              health. Thank you for growing with us.
+              From our kitchen to your home — every tub is handmade, every jar is
+              packed with love, and every delivery (even the late-night ones) is
+              us showing up for your health. Thank you for making our first
+              month so meaningful.
             </p>
 
-            <div className="grid grid-cols-3 gap-x-6 gap-y-8 mb-10">
+            <div className="grid grid-cols-3 gap-6 mb-10">
               {stats.map((stat, idx) => (
                 <motion.div
                   key={stat.label}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.08 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
                   viewport={{ once: true }}
                 >
                   <p className="text-3xl md:text-4xl font-display font-bold text-white">
-                    <Counter value={stat.value} suffix={stat.suffix} decimals={stat.decimals} />
+                    <Counter value={stat.value} suffix={stat.suffix} />
                   </p>
                   <p className="text-sm text-charcoal-400 mt-1">{stat.label}</p>
                 </motion.div>
               ))}
-            </div>
-
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-charcoal-300 mb-10 pb-10 border-b border-white/10">
-              <span className="inline-flex items-center gap-1.5">
-                📍 Casa Mira South, Langtad, City of Naga, Cebu
-              </span>
-              <span className="inline-flex items-center gap-1.5">🕒 Open daily, 7:00 AM – 11:00 AM</span>
-              <span className="inline-flex items-center gap-1.5">🚚 Local delivery across Naga</span>
             </div>
 
             <Link href="/about">
@@ -89,8 +78,8 @@ export function OurJourney() {
           >
             <div className="absolute top-0 left-4 w-[62%] rotate-[-4deg] shadow-2xl rounded-2xl overflow-hidden border-4 border-white">
               <Image
-                src="/images/product-bundle-pack.jpg"
-                alt="Healthy Choices delivery bag with CULTUR'D Greek yogurt tubs"
+                src="/images/story-first-month.jpg"
+                alt="Healthy Choices: Our First Month milestones — 843 tubs sold, 235 jars sold, 281 happy customers"
                 width={500}
                 height={667}
                 className="w-full h-auto"
