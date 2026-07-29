@@ -68,11 +68,7 @@ export default function CheckoutPage() {
     setError(null)
     try {
       const orderId = await createOrder({
-        userId: user.id,
         items,
-        subtotal,
-        deliveryFee,
-        total,
         deliveryType: formData.deliveryType as 'delivery' | 'pickup',
         paymentMethod: formData.paymentMethod as 'gcash' | 'cod',
         contactName: formData.contactName,

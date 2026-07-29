@@ -32,58 +32,35 @@ export interface OrderRow {
 }
 
 export interface NewOrderInput {
-  userId: string
   items: CartItem[]
-  subtotal: number
-  deliveryFee: number
-  total: number
   deliveryType: 'delivery' | 'pickup'
   paymentMethod: 'gcash' | 'cod'
   contactName: string
   contactPhone: string
   deliveryAddress?: string
   deliveryTime?: string
-  notes?: string
 }
 
-export async function createOrder(input: NewOrderInput) {
+// Prices, stock checks, and totals are all computed inside place_order()
+// from the live `products` rows, not from client-supplied values — the
+// client's cart is only used here to say *which* slugs and quantities
+// were requested.
+export async function createOrder(input: NewOrderInput): Promise<string> {
   const supabase = createClient()
 
-  const { data: order, error } = await supabase
-    .from('orders')
-    .insert({
-      user_id: input.userId,
-      subtotal: input.subtotal,
-      delivery_fee: input.deliveryFee,
-      total: input.total,
-      delivery_type: input.deliveryType,
-      payment_method: input.paymentMethod,
-      contact_name: input.contactName,
-      contact_phone: input.contactPhone,
-      delivery_address: input.deliveryAddress ?? null,
-      delivery_time: input.deliveryTime ?? null,
-      notes: input.notes ?? null,
-    })
-    .select()
-    .single()
+  const { data, error } = await supabase.rpc('place_order', {
+    p_items: input.items.map((item) => ({ slug: item.slug, quantity: item.quantity })),
+    p_delivery_type: input.deliveryType,
+    p_payment_method: input.paymentMethod,
+    p_contact_name: input.contactName,
+    p_contact_phone: input.contactPhone,
+    p_delivery_address: input.deliveryAddress ?? null,
+    p_delivery_time: input.deliveryTime ?? null,
+  })
 
   if (error) throw error
 
-  const { error: itemsError } = await supabase.from('order_items').insert(
-    input.items.map((item) => ({
-      order_id: order.id,
-      product_slug: item.slug,
-      product_name: item.name,
-      image_url: item.image_url,
-      size: item.size,
-      unit_price: item.price,
-      quantity: item.quantity,
-    }))
-  )
-
-  if (itemsError) throw itemsError
-
-  return order.id as string
+  return data as string
 }
 
 export async function getOrderById(id: string): Promise<OrderRow | null> {
