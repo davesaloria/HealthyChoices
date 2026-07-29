@@ -6,10 +6,10 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 
 const highlights = [
-  { icon: '🥣', label: 'Premium\nIngredients' },
-  { icon: '💪', label: 'High\nProtein' },
-  { icon: '🦠', label: 'Probiotics\nfor Gut Health' },
-  { icon: '🌿', label: 'Fresh\nMade Daily' },
+  { iconSprite: true, spritePosition: '0% 0%', label: 'Premium\nIngredients' },
+  { icon: '/images/icon-high-protein.png', label: 'High\nProtein' },
+  { icon: '/images/icon-probiotics.png', label: 'Probiotics\nfor Gut Health' },
+  { icon: '/images/icon-fresh-daily.png', label: 'Fresh\nMade Daily' },
 ]
 
 export function WellnessCTA() {
@@ -64,7 +64,20 @@ export function WellnessCTA() {
                 {idx > 0 && (
                   <span className="hidden sm:block w-px h-8 bg-white/20 -ml-3 mr-3" />
                 )}
-                <span className="text-xl">{item.icon}</span>
+                <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  {item.iconSprite ? (
+                    <div
+                      className="w-6 h-6 bg-no-repeat"
+                      style={{
+                        backgroundImage: "url('/images/icons-sprite.png')",
+                        backgroundSize: '200% 200%',
+                        backgroundPosition: item.spritePosition,
+                      }}
+                    />
+                  ) : (
+                    <Image src={item.icon!} alt="" width={24} height={24} />
+                  )}
+                </div>
                 <span className="text-xs sm:text-sm text-white font-medium whitespace-pre-line leading-tight">
                   {item.label}
                 </span>
