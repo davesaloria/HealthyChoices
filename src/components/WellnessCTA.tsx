@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 
 const highlights = [
-  { iconSprite: true, spritePosition: '0% 0%', label: 'Premium\nIngredients' },
+  { icon: '/images/icon-premium-quality.png', label: 'Premium\nIngredients' },
   { icon: '/images/icon-high-protein.png', label: 'High\nProtein' },
   { icon: '/images/icon-probiotics.png', label: 'Probiotics\nfor Gut Health' },
   { icon: '/images/icon-fresh-daily.png', label: 'Fresh\nMade Daily' },
@@ -57,33 +57,28 @@ export function WellnessCTA() {
               </svg>
             </Button>
           </Link>
+        </motion.div>
 
-          <div className="flex flex-wrap gap-6 sm:gap-8 mt-12 pt-8 border-t border-white/20">
-            {highlights.map((item, idx) => (
-              <div key={item.label} className="flex items-center gap-3">
-                {idx > 0 && (
-                  <span className="hidden sm:block w-px h-8 bg-white/20 -ml-3 mr-3" />
-                )}
-                <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
-                  {item.iconSprite ? (
-                    <div
-                      className="w-6 h-6 bg-no-repeat"
-                      style={{
-                        backgroundImage: "url('/images/icons-sprite.png')",
-                        backgroundSize: '200% 200%',
-                        backgroundPosition: item.spritePosition,
-                      }}
-                    />
-                  ) : (
-                    <Image src={item.icon!} alt="" width={24} height={24} />
-                  )}
-                </div>
-                <span className="text-xs sm:text-sm text-white font-medium whitespace-pre-line leading-tight">
-                  {item.label}
-                </span>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          viewport={{ once: true }}
+          className="flex flex-wrap md:flex-nowrap items-start gap-6 md:gap-8 mt-12 pt-8 border-t border-white/20 max-w-3xl"
+        >
+          {highlights.map((item, idx) => (
+            <div key={item.label} className="flex items-center gap-3 flex-shrink-0">
+              {idx > 0 && (
+                <span className="hidden md:block w-px h-8 bg-white/20 -ml-3 mr-3" />
+              )}
+              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center flex-shrink-0 overflow-hidden">
+                <Image src={item.icon} alt="" width={24} height={24} />
               </div>
-            ))}
-          </div>
+              <span className="text-xs sm:text-sm text-white font-medium whitespace-pre-line leading-tight">
+                {item.label}
+              </span>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>
