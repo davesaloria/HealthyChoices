@@ -1,8 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
-import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 export default function AccountPage() {

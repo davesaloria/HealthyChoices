@@ -241,7 +241,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
             Recommended Pairings
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {product.recommended.map((item, idx) => (
+            {product.recommended.map((item) => (
               <Card
                 key={item.id}
                 className="hover:shadow-lg transition-shadow cursor-pointer"

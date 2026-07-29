@@ -1,8 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/Button'
-import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/Card'
-import Link from 'next/link'
+import { Card, CardContent } from '@/components/ui/Card'
 import { motion } from 'framer-motion'
 
 export default function ContactPage() {
@@ -15,7 +14,7 @@ export default function ContactPage() {
             Get In Touch
           </h1>
           <p className="text-lg text-charcoal-600 max-w-2xl mx-auto">
-            Have questions? We'd love to hear from you.
+            Have questions? We&apos;d love to hear from you.
           </p>
         </div>
       </section>

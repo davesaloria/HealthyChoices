@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/Button'
-import { Card, CardContent, CardDescription, CardTitle } from '@/components/ui/Card'
+import { Card, CardContent } from '@/components/ui/Card'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 
@@ -43,7 +43,7 @@ export default function LoginPage() {
                 </form>
 
                 <div className="text-center text-sm text-charcoal-600">
-                  Don't have an account?{' '}
+                  Don&apos;t have an account?{' '}
                   <Link
                     href="/signup"
                     className="text-primary-500 hover:text-primary-600 font-semibold"

@@ -1,4 +1,4 @@
-import { type StateCreator, create } from 'zustand'
+import { create } from 'zustand'
 
 interface CartItem {
   id: string
