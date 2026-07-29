@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  @apply border-inherit;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply bg-white text-charcoal-900;
+  font-feature-settings: 'rounding' 1;
+}
+
+/* Smooth animations */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    @apply !transition-none !animate-none;
+  }
+}
+
+/* Focus states */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-500;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-charcoal-50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-charcoal-200 rounded-full hover:bg-charcoal-300;
+}
+
+/* Utility classes */
+.container {
+  @apply max-w-7xl;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-primary-500 to-coral-500 bg-clip-text text-transparent;
+}
+
+.shadow-soft {
+  @apply shadow-[0_2px_8px_rgba(0,0,0,0.04)];
+}
+
+.shadow-medium {
+  @apply shadow-[0_4px_16px_rgba(0,0,0,0.08)];
+}
+
+.shadow-hard {
+  @apply shadow-[0_8px_24px_rgba(0,0,0,0.12)];
+}
