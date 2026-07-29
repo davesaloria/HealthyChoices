@@ -9,10 +9,17 @@ export async function middleware(request: NextRequest) {
     request: { headers: requestHeaders },
   })
 
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  // A missing/misconfigured Supabase env var must never take down the
+  // whole site — only /admin (which needs the session) depends on this.
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return response
+  }
+
+  try {
+    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
         getAll() {
           return request.cookies.getAll()
@@ -25,12 +32,14 @@ export async function middleware(request: NextRequest) {
           )
         },
       },
-    }
-  )
+    })
 
-  // Refreshes the Supabase session cookie if needed — required for
-  // server components under /admin to see an up-to-date auth session.
-  await supabase.auth.getUser()
+    // Refreshes the Supabase session cookie if needed — required for
+    // server components under /admin to see an up-to-date auth session.
+    await supabase.auth.getUser()
+  } catch {
+    // Swallow: session refresh is best-effort and must not 500 the site.
+  }
 
   return response
 }

@@ -58,3 +58,4 @@ Thumbs.db
 
 # Public uploads
 /public/uploads/
+.env*
